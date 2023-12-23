@@ -1,70 +1,64 @@
-# Getting Started with Create React App
+# Description of app for finding cheapest product, basket near a specified location
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Frontend
+Two React components: `ProductList` and `Home`
 
-In the project directory, you can run:
+1. **ProductList Component:**
+   - It takes a prop `products` and renders a list of products.
+   - Each product is displayed with its name and price inside an unordered list (`ul`).
 
-### `npm start`
+2. **Home Component:**
+   - It uses React hooks (e.g., `useState` and `useEffect`) to manage state variables.
+   - State variables include `location`, `products`, `cheapestBasket`, `cheapestProduct`, `loading`, and `error`.
+   - The `fetchProductList` function is an asynchronous function that fetches a list of products from the server using Axios when the component mounts.
+   - The `fetchData` function is a generic function for fetching data from the server. It takes an endpoint and a state-setting function as parameters.
+   - The component renders:
+      - A heading "Cheapest Basket App."
+      - The `ProductList` component, passing the `products` state as a prop.
+      - Two sections for displaying the cheapest basket and cheapest product, each with a button to trigger the fetching of data.
+      - Loading and error messages based on the API request status.
+      - Display of the cheapest basket or product if the data is available.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+In summary, the `Home` component is the main component that fetches and displays product lists, the cheapest basket, and the cheapest product. It makes use of the `ProductList` component to render the list of products. The fetching of data is asynchronous, and loading and error states are handled accordingly.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## backend
 
-### `npm test`
+This code sets up a simple Express.js server that provides an API for finding the cheapest product near a specified location. Here's a short explanation:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. **Imports:**
+   - It imports necessary modules, including `express`, `axios` for making HTTP requests, `config` for configuration management, and `cors` for handling Cross-Origin Resource Sharing.
 
-### `npm run build`
+2. **Express App Setup:**
+   - Creates an instance of the Express application.
+   - Uses JSON parsing middleware (`express.json()`) and enables CORS (`cors()`).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. **Configuration:**
+   - Retrieves an API key from the `config` module.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. **Static Product Data:**
+   - Defines a static array of products with details such as name, barcode, price, location, and date.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+5. **Error Handling Middleware:**
+   - Defines a global error-handling middleware to catch and handle errors. It logs the error and sends a generic 500 Internal Server Error response.
 
-### `npm run eject`
+6. **API Endpoint (`/api/cheapest-product`):**
+   - Defines a GET endpoint for fetching the cheapest product near a specified location.
+   - Uses async/await to handle asynchronous operations.
+   - Fetches location data from the 2GIS API using the provided location and API key.
+   - Calculates the cheapest product based on the products array and the location data.
+   - Responds with the result (cheapest product) or an error message.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+7. **Async Function (`fetchLocationData`):**
+   - Takes a location as a parameter and fetches latitude and longitude data from the 2GIS API using Axios.
+   - Parses the response and extracts the necessary location data.
+   - Throws an error if the location data is not found.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+8. **Function (`calculateCheapestProduct`):**
+   - Takes location data and filters the products array to include only those near the specified location.
+   - Calculates and returns the cheapest product based on price.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+9. **Server Listening:**
+   - Starts the server on the specified port (or default port 3001) and logs a message indicating the server is running.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+In summary, this Express.js server provides a single API endpoint to find the cheapest product near a specified location. It uses static product data and the 2GIS API to fetch location information. The server handles errors gracefully and logs them.
