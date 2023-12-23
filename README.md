@@ -24,7 +24,7 @@ In summary, the `Home` component is the main component that fetches and displays
 
 ## Backend
 
-This code sets up a simple Express.js server that provides an API for finding the cheapest product near a specified location. Here's a short explanation:
+Provides an API for finding the cheapest product near a specified location. Here's a short explanation:
 
 1. **Imports:**
    - It imports necessary modules, including `express`, `axios` for making HTTP requests, `config` for configuration management, and `cors` for handling Cross-Origin Resource Sharing.
