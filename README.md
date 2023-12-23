@@ -22,7 +22,7 @@ Two React components: `ProductList` and `Home`
 
 In summary, the `Home` component is the main component that fetches and displays product lists, the cheapest basket, and the cheapest product. It makes use of the `ProductList` component to render the list of products. The fetching of data is asynchronous, and loading and error states are handled accordingly.
 
-## backend
+## Backend
 
 This code sets up a simple Express.js server that provides an API for finding the cheapest product near a specified location. Here's a short explanation:
 
